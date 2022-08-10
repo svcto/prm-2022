@@ -1,10 +1,22 @@
+import { AppDataSource } from './data-source';
 import express from "express";
-
+import cors from 'cors';
 // instanciando a aplicação express
 const app = express();
 
 // porta de execucao 
 const PORT = 3300;
 
-app.listen(PORT, () => console.log(`ta ligado na ${PORT}`))
+//Middleware
+app.use(cors())
+app.use(express.json())
+
+AppDataSource.initialize().then(() => {
+        //inicia
+        app.listen(PORT, () => console.log(`ta ligado na ${PORT}`))
+    }).catch(reason => {
+        console.log('ocorreu um erro:')
+        console.error(reason)
+    })
+
 
