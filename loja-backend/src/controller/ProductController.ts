@@ -5,6 +5,7 @@ import { TypeORMError } from 'typeorm';
 
 class ProductController {
 
+
     public async index(request: Request, response: Response) {
         try {
             // buscar todos os registros
