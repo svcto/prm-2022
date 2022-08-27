@@ -5,6 +5,7 @@ import { TypeORMError } from 'typeorm';
 
 class BrandController {
 
+
     public async index(request: Request, response: Response) {
         try {
             // buscar todos os registros
@@ -39,7 +40,7 @@ class BrandController {
             // buscar todos os registros
             const found = await Brand.findOneBy({id: Number(id)});
             if (!found) {
-                return response.status(404).json({message: 'Registro não encontrador'})
+                return response.status(404).json({message: 'Registro não encontrado'})
             }
 
             return response.json(found);
@@ -59,10 +60,13 @@ class BrandController {
             // buscar todos os registros
             const found = await Brand.findOneBy({id: Number(id)});
             if (!found) {
-                return response.status(404).json({message: 'Registro não encontrador'})
+                return response.status(404).json({message: 'Registro não encontrado'})
             }
 
-            const saved = await Brand.update(request.body.id, request.body)
+            await Brand.update(request.body.id, request.body);
+
+            const saved = request.body;
+            saved.id = found.id;
 
             return response.json(saved);
         } catch (e) {
@@ -81,7 +85,7 @@ class BrandController {
             // buscar todos os registros
             const found = await Brand.findOneBy({id: Number(id)});
             if (!found) {
-                return response.status(404).json({message: 'Registro não encontrador'})
+                return response.status(404).json({message: 'Registro não encontrado'})
             }
 
             await found.remove();

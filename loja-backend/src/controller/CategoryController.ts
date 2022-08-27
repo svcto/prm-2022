@@ -39,7 +39,7 @@ class CategoryController {
             // buscar todos os registros
             const found = await Category.findOneBy({id: Number(id)});
             if (!found) {
-                return response.status(404).json({message: 'Registro não encontrador'})
+                return response.status(404).json({message: 'Registro não encontrado'})
             }
 
             return response.json(found);
@@ -59,10 +59,13 @@ class CategoryController {
             // buscar todos os registros
             const found = await Category.findOneBy({id: Number(id)});
             if (!found) {
-                return response.status(404).json({message: 'Registro não encontrador'})
+                return response.status(404).json({message: 'Registro não encontrado'})
             }
 
-            const saved = await Category.update(request.body.id, request.body)
+            await Category.update(request.body.id, request.body);
+
+            const saved = request.body;
+            saved.id = found.id;
 
             return response.json(saved);
         } catch (e) {
@@ -81,7 +84,7 @@ class CategoryController {
             // buscar todos os registros
             const found = await Category.findOneBy({id: Number(id)});
             if (!found) {
-                return response.status(404).json({message: 'Registro não encontrador'})
+                return response.status(404).json({message: 'Registro não encontrado'})
             }
 
             await found.remove();
