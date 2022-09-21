@@ -1,5 +1,5 @@
 {
-    "compilerOptions": {
+  "compilerOptions": {
     /* Visit https://aka.ms/tsconfig to read more about this file */
 
     /* Projects */
@@ -26,13 +26,11 @@
 
     /* Modules */
     "module": "commonjs",                                /* Specify what module code is generated. */
-    //"rootDir": "./src",                                  /* Specify the root folder within your source files. */
+    "rootDir": "./src",                                  /* Specify the root folder within your source files. */
     // "moduleResolution": "node",                       /* Specify how TypeScript looks up a file from a given module specifier. */
     // "baseUrl": "./",                                  /* Specify the base directory to resolve non-relative module names. */
-    "paths": {
-      "@typesCustom": ["C:\\Users\\Samue\\OneDrive\\Documentos\\GitHub\\faculdade\\prm-2022\\@types\\index.ts"]
-    },                                      /* Specify a set of entries that re-map imports to additional lookup locations. */
-    "rootDirs": ["C:\\Users\\Samue\\OneDrive\\Documentos\\GitHub\\faculdade\\prm-2022\\@types"],                                /* Allow multiple folders to be treated as one when resolving modules. */
+    // "paths": {},                                      /* Specify a set of entries that re-map imports to additional lookup locations. */
+    // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
     // "typeRoots": [],                                  /* Specify multiple folders that act like './node_modules/@types'. */
     // "types": [],                                      /* Specify type package names to be included without being referenced in a source file. */
     // "allowUmdGlobalAccess": true,                     /* Allow accessing UMD globals from modules. */
