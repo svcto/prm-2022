@@ -2,11 +2,14 @@ import { ICredential } from './../../../../@types/index';
 import axios, { AxiosError } from "axios";
 
 const api = axios.create({
-    baseURL: 'http://localhost:3302',
+    baseURL: 'http://localhost:3300',
 });
 
 // Endpoint dos serviços
-const _ACCOUNT = '/account/admin'
+const _ACCOUNT = '/account/admin';
+const _BACKOFFICE = '/backoffice';
+
+export const listBrands = () => (api.get(`${_BACKOFFICE}/brands`))
 
 // Account
 export const signInAdmin = async (credential: ICredential) => {

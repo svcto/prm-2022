@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import BrandController from './controller/BrandController';
 import CategoryController from './controller/CategoryController';
+import CustomerController from './controller/CustomerController';
+import OrderController from './controller/OrderController';
 import ProductController from './controller/ProductController';
 
 //Instancio o reouter do express
@@ -38,6 +40,26 @@ routes.route('/products/:id')
     .put(ProductController.update)
     .delete(ProductController.remove);
 
+//Rotas da Customer
+routes.route('/customers')
+    .get(CustomerController.index)
+    .post(CustomerController.create);
 
+routes.route('/customers/:id')
+    .get(CustomerController.show)
+    .put(CustomerController.update)
+    .delete(CustomerController.remove);
+
+
+//Rotas da Order
+routes.route('/orders')
+.get(OrderController.index)
+.post(OrderController.create);
+
+routes.route('/orders/cancelar/:id')
+.put(OrderController.cancelar)
+
+routes.route('/orders/:id')
+.get(OrderController.show)
 
 export default routes;
