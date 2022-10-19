@@ -1,3 +1,4 @@
+import { IBrand } from '@typesCustom';
 import { ICredential } from './../../../../@types/index';
 import axios, { AxiosError } from "axios";
 
@@ -10,7 +11,7 @@ const _ACCOUNT = '/account/admin';
 const _BACKOFFICE = '/backoffice';
 
 export const listBrands = () => (api.get(`${_BACKOFFICE}/brands`))
-
+export const createBrand = (brand: IBrand) => (api.post(`${_BACKOFFICE}/brands`, brand))
 // Account
 export const signInAdmin = async (credential: ICredential) => {
     try {

@@ -1,15 +1,17 @@
-import { ColumnActionsMode, IColumn, Panel, PanelType, ShimmeredDetailsList, Stack, TextField } from "@fluentui/react";
-import { MouseEvent, useEffect, useState } from "react";
+import { ColumnActionsMode, DefaultButton, IColumn, Panel, PanelType, PrimaryButton, SelectionMode, ShimmeredDetailsList, Stack, TextField } from "@fluentui/react";
+import { useCallback, useEffect, useState } from "react";
 import { PageToolBar } from "../../components/PageToolBar";
 import { IBrand } from '@typesCustom'
-import { listBrands } from "../../services/server";
+import { createBrand, listBrands } from "../../services/server";
 import { MessageBarCustom } from "../../components/MessageBarCustom";
+import React from "react";
+import { PanelFooterContent } from "../../components/PanelFooterContent";
 
 export function BrandPage() {
     const [brand, setBrand] = useState<IBrand>({} as IBrand)
     const [brands, setBrands] = useState<IBrand[]>([]);
     const [loading, setLoading] = useState(true);
-    const [message, setMessage] = useState('');
+    // const [message, setMessage] = useState('');
     const [messageError, setMessageError] = useState('');
     const [messageSuccess, setMessageSuccess] = useState('');
     const [openPanel, setOpenPanel] = useState(false);
@@ -31,6 +33,31 @@ export function BrandPage() {
             name: ''
         })
     }
+
+    async function handleConfirmSave() {
+        createBrand(brand)
+            .then(result => {
+                console.log(result);
+                setBrands([...brands, result.data]);
+            }).catch(error => {
+                setMessageError(error.message);
+                setInterval(() => {
+                    handleDemissMessageBar();
+                    console.log('ok')
+                }, 10000)
+            }).finally(() =>
+                setOpenPanel(false))
+
+
+    }
+
+
+    const onRenderFooterContent = (): JSX.Element => (
+        <PanelFooterContent id={brand.id as number}
+            loading={loading} onConfirm={handleConfirmSave}
+            onDismiss={() => setOpenPanel(false)}></PanelFooterContent>
+
+    );
 
     useEffect(() => {
         listBrands()
@@ -76,7 +103,8 @@ export function BrandPage() {
                         items={brands}
                         columns={columns}
                         setKey="set"
-                        enableShimmer={loading} />
+                        enableShimmer={loading}
+                        selectionMode={SelectionMode.none} />
                 </div>
             </Stack>
             <Panel className="panel-form"
@@ -84,7 +112,8 @@ export function BrandPage() {
                 type={PanelType.medium}
                 headerText="Cadastro de Marca"
                 isFooterAtBottom={true}
-                onDismiss={handleDemissPanel}>
+                onDismiss={handleDemissPanel}
+                onRenderFooterContent={onRenderFooterContent}>
                 <p>Preencha TODOS os campos obrigatórios identificados por <span className="required">*</span></p>
                 <Stack horizontal={false}
                     className="panel-form-content">
