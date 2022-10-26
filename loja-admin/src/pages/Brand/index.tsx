@@ -2,10 +2,11 @@ import { ColumnActionsMode, DefaultButton, IColumn, Panel, PanelType, PrimaryBut
 import { useCallback, useEffect, useState } from "react";
 import { PageToolBar } from "../../components/PageToolBar";
 import { IBrand } from '@typesCustom'
-import { createBrand, listBrands } from "../../services/server";
+import { createBrand, deleteBrand, listBrands, updateBrand } from "../../services/server";
 import { MessageBarCustom } from "../../components/MessageBarCustom";
 import React from "react";
 import { PanelFooterContent } from "../../components/PanelFooterContent";
+import { DetailsListOptions } from "../../components/DetailsListOptions";
 
 export function BrandPage() {
     const [brand, setBrand] = useState<IBrand>({} as IBrand)
@@ -24,6 +25,15 @@ export function BrandPage() {
             minWidth: 100,
             isResizable: false,
             columnActionsMode: ColumnActionsMode.disabled
+        },
+        {
+            key: 'option',
+            name: 'Opções',
+            minWidth: 60,
+            maxWidth: 60,
+            isResizable: false,
+            columnActionsMode: ColumnActionsMode.disabled,
+            onRender: (item: IBrand) => (<DetailsListOptions onEdit={() => handleEdit(item)} onDelete={() => handleDelete(item)} />)
         }
     ];
 
@@ -34,21 +44,64 @@ export function BrandPage() {
         })
     }
 
-    async function handleConfirmSave() {
-        createBrand(brand)
-            .then(result => {
-                console.log(result);
+    function handleConfirmSave() {
+
+        let result = null;
+
+        if (brand.id) {
+            result = updateBrand(brand);
+        } else {
+            result = createBrand(brand);
+        }
+        result.then(result => {
+            console.log(result);
+            if (brand.id) {
+                const i = brands.findIndex(b => b.id == brand.id);
+                brands[i] = { ...result.data };
+            } else {
                 setBrands([...brands, result.data]);
-            }).catch(error => {
-                setMessageError(error.message);
-                setInterval(() => {
-                    handleDemissMessageBar();
-                    console.log('ok')
-                }, 10000)
-            }).finally(() =>
-                setOpenPanel(false))
+            }
+            setMessageSuccess('Registro salvo com sucesso!');
+            setTimeout(() => {
+                setMessageSuccess('');
+            }, 5000);
+        }).catch(error => {
+            setMessageError(error.message);
+            setTimeout(() => {
+                handleDemissMessageBar();
+                console.log('ok');
+            }, 10000)
+        }).finally(() =>
+            setOpenPanel(false))
 
+    }
 
+    function handleEdit(item: IBrand) {
+        setBrand(item);
+        setOpenPanel(true);
+    }
+
+    function handleDelete(item: IBrand) {
+        if (item.id) {
+            deleteBrand(item.id)
+                .then(() => {
+                    setBrands(brands.filter(b => b.id !== item.id));
+                    setMessageSuccess('Registro excluído com sucesso!')
+                    setTimeout(() => {
+                        setMessageSuccess('');
+                    }, 5000);
+                })
+                .catch((error => {
+                    setMessageError(error.message);
+                    setTimeout(() => {
+                        handleDemissMessageBar();
+                        console.log('ok');
+                    }, 10000)
+                }))
+                .finally(() => { });
+        } else {
+
+        }
     }
 
 
@@ -119,7 +172,7 @@ export function BrandPage() {
                     className="panel-form-content">
                     <TextField label="Nome da marca" required value={brand.name} onChange={event => setBrand({ ...brand, name: (event.target as HTMLInputElement).value })} />
                 </Stack>
-                {JSON.stringify(brand)}
+                {/* {JSON.stringify(brand)} */}
             </Panel>
         </div>
     )

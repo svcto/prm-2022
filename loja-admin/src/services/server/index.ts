@@ -12,6 +12,8 @@ const _BACKOFFICE = '/backoffice';
 
 export const listBrands = () => (api.get(`${_BACKOFFICE}/brands`))
 export const createBrand = (brand: IBrand) => (api.post(`${_BACKOFFICE}/brands`, brand))
+export const updateBrand = (brand: IBrand) => (api.put(`${_BACKOFFICE}/brands/${brand.id}`, brand))
+export const deleteBrand = (id: number) => (api.delete(`${_BACKOFFICE}/brands/${id}`))
 // Account
 export const signInAdmin = async (credential: ICredential) => {
     try {

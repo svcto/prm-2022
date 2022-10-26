@@ -6,14 +6,14 @@ import routes from './routes';
 const app = express();
 
 // porta de execucao 
-const PORT = 3300;
+const PORT = 3301;
 
 //Middleware
 app.use(cors())
 app.use(express.json())
 
 // importa as rotas
-app.use('/server', routes)
+app.use('/backoffice', routes)
 
 AppDataSource.initialize().then(() => {
         //inicia
