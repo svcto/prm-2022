@@ -15,7 +15,8 @@ class AuthController {
             const user: IUser = {
                 uid: result.user.uid,
                 name: result.user.displayName || '',
-                email: result.user.email || credential.email
+                email: result.user.email || credential.email,
+                password: ''
             }
 
             const accessToken = await result.user.getIdToken();

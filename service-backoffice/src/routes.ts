@@ -5,6 +5,8 @@ import CustomerController from './controller/CustomerController';
 import OrderController from './controller/OrderController';
 import ProductController from './controller/ProductController';
 
+
+
 //Instancio o reouter do express
 const routes = Router();
 
@@ -53,13 +55,13 @@ routes.route('/customers/:id')
 
 //Rotas da Order
 routes.route('/orders')
-.get(OrderController.index)
-.post(OrderController.create);
+    .get(OrderController.index)
+    .post(OrderController.create);
 
 routes.route('/orders/cancelar/:id')
-.put(OrderController.cancelar)
+    .put(OrderController.cancelar)
 
 routes.route('/orders/:id')
-.get(OrderController.show)
+    .get(OrderController.show)
 
 export default routes;

@@ -9,7 +9,7 @@ const routes = Router();
 //rotas da Brand
 routes.route('/brands')
     .get(BrandController.index)
-    .post(BrandController.create);
+    .post(BrandController.create); 
 
 routes.route('/brands/:id')
     .get(BrandController.show)

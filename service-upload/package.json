@@ -1,5 +1,5 @@
 {
-  "name": "service-backoffice",
+  "name": "service-upload",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -7,13 +7,12 @@
     "dev": "ts-node-dev src/server.ts --transpile-only --ignore-watch node_modules --respawn"
   },
   "dependencies": {
+    "amqplib": "^0.10.3",
     "cors": "^2.8.5",
-    "dotenv": "^16.0.2",
-    "express": "^4.18.1",
-    "multer": "^1.4.5-lts.1",
-    "mysql": "^2.18.1",
-    "reflect-metadata": "^0.1.13",
-    "typeorm": "^0.3.7"
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "firebase": "^9.14.0",
+    "firebase-admin": "^11.3.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",
