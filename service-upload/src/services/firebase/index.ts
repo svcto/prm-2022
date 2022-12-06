@@ -2,9 +2,6 @@ import dotenv from 'dotenv';
 
 import * as admin from 'firebase-admin';
 
-
-import { initializeApp, FirebaseError } from "firebase/app";
-
 var account = require('./certs/service-account.json')
 
 const BUCKET = 'prm-2022-8ee8e.appspot.com'
@@ -20,31 +17,28 @@ admin.initializeApp({
 
 const bucket = admin.storage().bucket();
 
-const uploadImage = async (req, res, next) => {
-  if (!req.file) return next();
-
-  const imagem = req.file;
-  const nomeArquivo = `${Date.now()}.${imagem.originalname.split('.').pop()}`;
+export function uploadImage(imagem: any) {
+  const nomeArquivo = `${Date.now()}.${imagem.originalname}`;
 
   const file = bucket.file(nomeArquivo);
 
   const stream = file.createWriteStream({
     metadata: {
-      contentType: imagem.mimetype
-    }
+      contentType: imagem.mimetype,
+    },
   });
 
-  stream.on('error', (e) => {
+  stream.on("error", (e) => {
     console.error(e);
   });
 
-  stream.on('finish', async () => {
+  stream.on("finish", async () => {
     await file.makePublic();
-
-  })
+    
+  });
 
   stream.end(imagem.buffer);
-
+  return file.publicUrl();
 }
 
 

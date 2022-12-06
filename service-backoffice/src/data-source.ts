@@ -1,3 +1,4 @@
+import { ProductImage } from './entity/ProductImage';
 import { Customer } from './entity/Customer';
 import { Order } from './entity/Order';
 import 'reflect-metadata';
@@ -12,9 +13,9 @@ export const AppDataSource = new DataSource({
     host: 'localhost',
     port: 3306,
     username: 'root',
-    password: 'root',
+    password: 'ni1106ms',
     database: 'prmdb',
     synchronize: true,
     logging: true,
-    entities: [Brand, Category, Product, Order, Customer, OrderItem]
+    entities: [Brand, Category, Product, Order, Customer, OrderItem, ProductImage]
 });
