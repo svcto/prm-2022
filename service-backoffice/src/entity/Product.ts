@@ -26,7 +26,7 @@ export class Product extends BaseEntity {
   @ManyToOne(() => Brand, { eager: true, nullable: true })
   brand: Brand;
 
-  @OneToMany(() => ProductImage, (img) => img.product)
+  @OneToMany(() => ProductImage, (img) => img.product, {eager: true})
   images: ProductImage[];
 
   @CreateDateColumn()

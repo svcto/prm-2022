@@ -13,7 +13,7 @@ export const AppDataSource = new DataSource({
     host: 'localhost',
     port: 3306,
     username: 'root',
-    password: 'ni1106ms',
+    password: 'root',
     database: 'prmdb',
     synchronize: true,
     logging: true,

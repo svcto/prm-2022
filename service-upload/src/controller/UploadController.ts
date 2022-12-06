@@ -4,7 +4,7 @@ import { uploadImage } from "../services/firebase";
 
 class UploadController {
   public async doUpload(request: any, response: Response) {
-    const { id } = request.params;
+    const id= request.query.id;
     const url = uploadImage(request.file);
     sendToQueue(JSON.stringify({ id, url }));
     return response.send(url);

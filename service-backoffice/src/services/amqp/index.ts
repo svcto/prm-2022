@@ -43,23 +43,17 @@ const consumeUpload = async () => {
       const obj = JSON.parse(message?.content.toString());
 
       try {
-        const { id, urlImage } = JSON.parse(obj);
         const found = await Product.findOneBy({
-          id: Number(id),
+          id: Number(obj.id),
         });
         if (!found) {
           return console.error("Recurso não encontrado");
         }
 
-        if (!found.images) {
-          found.images = [];
-        }
         const img: ProductImage = new ProductImage();
         img.product = found;
-        img.imageUrl = urlImage;
-        found.images.push(img);
-        
-        await Product.update(found.id, found);
+        img.imageUrl = obj.url;
+        await ProductImage.save(img);
       } catch (e) {
         console.error(e);
       }

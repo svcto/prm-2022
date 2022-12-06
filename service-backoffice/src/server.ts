@@ -3,6 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import routes from './routes';
 import dotenv from 'dotenv';
+import { connect, consumeCustomer, consumeUpload } from './services/amqp';
 
 //Carrego variaveis de ambiente
 dotenv.config();
@@ -19,6 +20,18 @@ app.use(express.json());
 
 //Importa as rotas
 app.use('/backoffice', routes);
+
+connect()
+    .then(() => {
+        console.log('Conectado ao RabbitMQ e pronto para consumi-lo');
+
+        //Carrego os consumidores
+        consumeCustomer();
+        consumeUpload();
+    })
+    .catch(error => {
+        console.log('Não foi possível conectar ao RabbitMQ');
+    });
 
 //Tento conectar ao banco e, se não conseguir, mostro o erro.
 AppDataSource.initialize()
